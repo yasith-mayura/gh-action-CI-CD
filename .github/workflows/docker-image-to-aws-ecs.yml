@@ -48,7 +48,7 @@ jobs:
       run: sudo apt-get install -y openssh-client
 
     - name: Add SSH key
-      run: echo "${{ secrets.EC2_KEY }}" > mykey.pem && chmod 400 NewKey.pem
+      run: echo "${{ secrets.EC2_KEY }}" > mykey.pem && chmod 400 myKey.pem
 
     - name: Deploy to EC2
       run: |
