@@ -54,7 +54,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i mykey.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
           docker pull ${{ secrets.ECR_REPOSITORY }}:latest
-          docker stop my-container || true
-          docker rm my-container || true
-          docker run -d --name my-container -p 80:80 ${{ secrets.ECR_REPOSITORY }}:latest
+          docker stop my-node-app || true
+          docker rm my-node-app || true
+          docker run -d --name my-node-app -p 80:80 ${{ secrets.ECR_REPOSITORY }}:latest
         EOF
