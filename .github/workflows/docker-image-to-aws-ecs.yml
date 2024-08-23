@@ -35,8 +35,7 @@ jobs:
         push: true
         tags: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-node-app:latest
 
-    - name: Log out from Amazon ECR
-      run: docker logout ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+    
 
     
   deploy:
@@ -58,3 +57,5 @@ jobs:
           sudo docker rm my-node-app || true
           sudo docker run -d --name my-node-app -p 80:80 ${{ secrets.ECR_REPOSITORY }}:latest
         EOF
+    - name: Log out from Amazon ECR
+      run: docker logout ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
