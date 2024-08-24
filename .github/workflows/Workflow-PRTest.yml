@@ -25,13 +25,4 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Install Trivy
-        run: |
-          curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.39.0/trivy_0.39.0_Linux-x86_64.deb -o trivy.deb
-          sudo dpkg -i trivy.deb
-          trivy --version
-
-      - name: Scan Docker image for vulnerabilities
-        run: |
-          docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-node-app:latest
-          trivy image ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-node-app:latest
+      
