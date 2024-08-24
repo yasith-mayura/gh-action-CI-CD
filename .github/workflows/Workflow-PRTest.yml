@@ -31,7 +31,7 @@ jobs:
         
       - name: Install Trivy
         run: |
-          curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.39.0/trivy_0.39.0_Linux-x86_64.deb -o trivy.deb
+          curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.54.1/trivy_v0.54.1_Linux-x86_64.deb -o trivy.deb
           sudo dpkg -i trivy.deb
           trivy --version
 
