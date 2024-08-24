@@ -24,7 +24,8 @@ jobs:
 
       - name: Build project
         run: npm run build
-
+      
+        
       - name: Install Trivy
         run: |
           curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.39.0/trivy_0.39.0_Linux-x86_64.deb -o trivy.deb
