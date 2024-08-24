@@ -20,7 +20,7 @@ jobs:
         run: npm install
 
       - name: Run unit tests
-        run: CI=true npm test
+        run: npm run test -- --watchAll
 
       - name: Build project
         run: npm run build
