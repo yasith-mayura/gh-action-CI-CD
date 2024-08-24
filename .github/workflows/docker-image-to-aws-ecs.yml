@@ -49,6 +49,10 @@ jobs:
 
     - name: Add SSH key
       run: echo "${{ secrets.EC2_KEY }}" > mykey.pem && chmod 400 mykey.pem
+    
+    - name: Log in to Amazon ECR
+      run: |
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
     - name: Deploy to EC2
       run: |
@@ -58,3 +62,5 @@ jobs:
           sudo docker rm my-node-app || true
           sudo docker run -d --name my-node-app -p 80:80 992382808832.dkr.ecr.us-east-1.amazonaws.com/my-node-app:latest
         EOF
+    - name: Log out from Amazon ECR
+      run: docker logout ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
