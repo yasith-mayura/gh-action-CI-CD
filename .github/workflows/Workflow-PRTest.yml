@@ -1,0 +1,26 @@
+name: PR Tests and Build
+
+on:
+  pull_request:
+    branches:
+      - main  # or the branch you want to trigger the workflow on
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js (if using Node.js)
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run unit tests
+        run: CI=true npm test
+
+      - name: Build project
+        run: npm run build
