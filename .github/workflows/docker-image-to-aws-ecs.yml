@@ -44,6 +44,9 @@ jobs:
     needs: build-and-push  # This line ensures the deploy job runs only after the build job is successful
 
     steps:
+    - name: Update package list
+      run: sudo apt-get update
+
     - name: Install SSH client
       run: sudo apt-get install -y openssh-client
 
