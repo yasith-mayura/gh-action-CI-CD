@@ -69,7 +69,7 @@ jobs:
 
     - name: Pull Docker image from ECR
       run: |
-        sudo docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-node-app:latest
+        docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-node-app:latest
 
     - name: Run Docker container
       run: |
