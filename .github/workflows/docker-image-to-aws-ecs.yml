@@ -49,7 +49,13 @@ jobs:
 
     - name: Add SSH key
       run: echo "${{ secrets.EC2_KEY }}" > mykey.pem && chmod 400 mykey.pem
-    
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i mykey.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 
+    - name: Set up AWS CLI
+      uses: aws-actions/setup-sam@v2
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -57,13 +63,16 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Deploy to EC2
+    - name: Authenticate Docker with ECR
       run: |
-        ssh -o StrictHostKeyChecking=no -i mykey.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-          sudo docker pull 992382808832.dkr.ecr.us-east-1.amazonaws.com/my-node-app:latest
-          sudo docker stop my-node-app || true
-          sudo docker rm my-node-app || true
-          sudo docker run -d --name my-node-app -p 80:80 992382808832.dkr.ecr.us-east-1.amazonaws.com/my-node-app:latest
-        EOF
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+    - name: Pull Docker image from ECR
+      run: |
+        docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/your-repository:your-tag
+
+    - name: Run Docker container
+      run: |
+        docker run -d --name my-app -p 80:80 ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/your-repository:your-tag
+
 
