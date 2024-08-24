@@ -58,10 +58,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i mykey.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 
     - name: Update package list
       run: sudo apt-get update
-
-    - name: Reboot the system
-      run: sudo reboot
-    
+         
     - name: System Status
       run: uptime
 
